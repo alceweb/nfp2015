@@ -1,0 +1,166 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeFile="Site.master.cs" Inherits="SiteMaster" %>
+
+<!DOCTYPE html>
+<html lang="it">
+<head runat="server">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta charset="utf-8" />
+    <title><%: Page.Title %> - NFP Congress 2015</title>
+    <link href="Content/Site.css" rel="stylesheet" />
+    <asp:PlaceHolder runat="server">           
+        <script src="<%: ResolveUrl("~/Scripts/modernizr-2.6.2.js") %>"></script>
+    </asp:PlaceHolder>
+    <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+    <meta name="viewport" content="width=device-width" />
+    <asp:ContentPlaceHolder runat="server" ID="HeadContent" />
+</head>
+<body>
+    <form runat="server">
+    <header style="background-color:#e2dfcd">
+        <div class="content-wrapper">
+            <div class="float-left">
+                    <asp:HyperLink ID="HyperLink5" NavigateUrl="~/Index.aspx" runat="server">
+                        <asp:Image ID="Image3" ImageUrl="~/Images/LogoNFP.png" runat="server" />
+                    </asp:HyperLink>
+            </div>
+            <div class="float-right">
+                <section id="login">
+                    <asp:LoginView runat="server" ViewStateMode="Disabled">
+                        <AnonymousTemplate>
+                            <ul>
+<%--                                <li><a id="registerLink" runat="server" href="~/Account/Register">Esegui registrazione</a></li>--%>
+                                <li><a id="loginLink" runat="server" href="~/Account/Login">Login</a></li>
+                            </ul>
+                            <hr />
+                        </AnonymousTemplate>
+                        <LoggedInTemplate>
+                            <p>
+                                Hello, <a runat="server" class="username" href="~/Account/Manage" title="Manage your account">
+                                    <asp:LoginName runat="server" CssClass="username" />!
+                                </a>
+                                <asp:LoginStatus runat="server" LogoutAction="Redirect" LogoutText="Logout" LogoutPageUrl="~/Index.aspx" />
+<br />                                <a runat="server" class="alogin" href="~/Registrati/Iscritti.aspx">Iscrizione! / sign up! / Зарегистрироваться</a>
+                            </p>
+                            <hr />
+                        </LoggedInTemplate>
+                    </asp:LoginView>
+                </section>
+            </div>
+       </div>
+    </header>
+        <div>
+                <nav>
+                    <asp:ListView ID="ListViewNav" runat="server" OnSelectedIndexChanged="ListViewNav_SelectedIndexChanged" DataKeyNames="Id" DataSourceID="SqlDataSourceNav" SelectedIndex="-1">
+                        <EmptyDataTemplate>
+                            <table class="nav-table"  style="border-width: thin; border-color: #6D4233; background-color: #BFB893; border-top-style: solid;">
+                                <tr>
+                                    <td>
+                                        <a runat="server" href="~/Index.aspx">Home / домой</a>                                    
+                                    </td>
+                                </tr>
+                            </table>
+                        </EmptyDataTemplate>
+                        <ItemTemplate>
+                            <td id="Td5" runat="server" style="">
+                                <asp:LinkButton ID="ButtonNav" runat="server" CommandName="Select" Text='<%# Eval("TxtMenu") %>' />
+                                <br />
+                            </td>
+                        </ItemTemplate>
+                        <LayoutTemplate>
+                            <table id="Table2" runat="server" class="nav-table"  style="border-width: thin; border-color: #6D4233; background-color: #BFB893; border-top-style: solid;">
+                                <tr id="itemPlaceholderContainer" runat="server">
+                                    <td id="itemPlaceholder" runat="server"></td>
+                                </tr>
+                            </table>
+                            <div style="">
+                            </div>
+                        </LayoutTemplate>
+                        <SelectedItemTemplate>
+                            <td id="Td6" runat="server" style="background-color: #9D945E; text-align:center" >
+                                <asp:Label ID="TxtMenuLabel"  CssClass="NavSel" runat="server" Text='<%# Eval("TxtMenu") %>' />
+                                <br />
+                            </td>
+                            
+                        </SelectedItemTemplate>
+                    </asp:ListView>
+                    <asp:SqlDataSource ID="SqlDataSourceNav" runat="server"
+                        ConnectionString="<%$ ConnectionStrings:DefaultConnection %>"
+                        SelectCommand="SELECT * FROM [Nav] WHERE ([IdLingua] = @IdLingua) and ([Pubblica] = @Pubblica) Order by [Pos]">
+                        <SelectParameters>
+                            <asp:QueryStringParameter Name="IdLingua" QueryStringField="Id" Type="Int32" />
+                            <asp:Parameter Name="Pubblica" DefaultValue="true" Type="Boolean" />
+                        </SelectParameters>
+                    </asp:SqlDataSource>
+                    <asp:ListView ID="ListViewMenu" EnablePersistedSelection="true" runat="server" DataKeyNames="Id" DataSourceID="SqlDataSourceMenu" SelectedIndex="-1">
+                        <EmptyDataTemplate>
+                            <table style="">
+                                <tr>
+                                    <td>
+                                    </td>
+                                </tr>
+                            </table>
+                        </EmptyDataTemplate>
+                        <ItemTemplate>
+                            <td id="Td7" runat="server"  >
+                                <asp:LinkButton ID="LinkButton1" runat="server" CommandName="Select" style="text-decoration: none;" ><%# Eval("TxtSubMenu") %></asp:LinkButton>
+                            </td>
+                        </ItemTemplate>
+                        <LayoutTemplate>
+                            <table id="Table3" runat="server" class="nav-table" >
+                                <tr  id="itemPlaceholderContainer" runat="server" style="background-color: #9D945E;">
+                                    <td id="itemPlaceholder" runat="server">
+                                    </td>
+                                </tr>
+                            </table>
+                        </LayoutTemplate>
+                        <SelectedItemTemplate>
+                            <td id="Td8" runat="server" >
+                                <asp:Label ID="TxtSubMenuLabel" CssClass="NavSel" runat="server" Text='<%# Eval("TxtSubMenu") %>' />
+                            </td>
+                        </SelectedItemTemplate>
+                    </asp:ListView>
+                    <asp:SqlDataSource ID="SqlDataSourceMenu" runat="server"
+                        ConnectionString="<%$ ConnectionStrings:DefaultConnection %>"
+                        SelectCommand="SELECT * FROM [Menu] Inner Join [Nav] on [Menu].[IdNav] = [Nav].[Id] WHERE ([IdNav] = @IdNav) AND ([IdLingua] = @Lingua) And ([Menu].[Pubblica] = @Pubblica) ORDER BY [Menu].[Id]">
+                        <SelectParameters>
+                            <asp:ControlParameter ControlID="ListViewNav" Name="IdNav" PropertyName="SelectedValue" Type="Int32" />
+                            <asp:QueryStringParameter Name="Lingua" QueryStringField="Id" Type="Int32" />
+                            <asp:Parameter Name="Pubblica" DefaultValue="true" Type="Boolean" />
+                        </SelectParameters>
+                    </asp:SqlDataSource>
+                </nav><hr />
+
+        </div>
+        <div id="body">
+            <div class="main-content">
+                <table class="main-table">
+                    <tr>
+                        <td>
+                            <asp:ContentPlaceHolder runat="server" ID="FeaturedContent" />
+                            <section class="content-wrapper main-content clear-fix">
+                                <asp:ContentPlaceHolder runat="server" ID="MainContent" />
+                            </section>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    <footer>
+            <hr />
+        <div>
+            <div class="float-right">
+                <asp:Panel ID="PanelTraduttori" Visible="false" runat="server">
+                    <a id="A4" runat="server" href="~/Riservata/main.aspx"><img alt="" style="width: 25px" src="<%: ResolveUrl("Images/Lucchetto.png") %>" />Traslate</a><br /><br />
+                </asp:Panel>
+                <p style="text-align:right; padding-right:20px;">
+                    <a href="mailto:congress@2015NFPcongress.org">congress@2015NFPcongress.org</a> - <a href="Download/PrivacyV1.pdf">Privacy</a><br /><br />
+                    Associazione Sintotermico CAMeN" <a href="http://www.camen.org">www.camen.org</a><br /><br />
+                    All rights reserved
+                    &copy; <%: DateTime.Now.Year %> - <a class="a" href="http://www.cr-consult.eu">Almish<span class="c">&</span>Cesàre<span class="c">W</span>eb</a>
+                </p>
+            </div>
+        </div>
+    </footer>
+    </form>
+</body>
+</html>

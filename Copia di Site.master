@@ -1,0 +1,153 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeFile="Copia di Site.master.cs" Inherits="SiteMaster" %>
+
+<!DOCTYPE html>
+<html lang="it">
+<head runat="server">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta charset="utf-8" />
+    <title><%: Page.Title %> - NFP Congress 2015</title>
+    <link href="~/Content/Site.css" rel="stylesheet" />
+    <link href="favicon.ico" rel="shortcut icon" type="image/x-icon" />
+    <asp:PlaceHolder runat="server">           
+        <script src="<%: ResolveUrl("~/Scripts/modernizr-2.6.2.js") %>"></script>
+    </asp:PlaceHolder>
+    <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+    <meta name="viewport" content="width=device-width" />
+    <asp:ContentPlaceHolder runat="server" ID="HeadContent" />
+</head>
+<body>
+    <form runat="server">
+    <asp:ScriptManager runat="server">
+        <Scripts>
+            <asp:ScriptReference Name="jquery" />
+            <asp:ScriptReference Name="jquery.ui.combined" />
+        </Scripts>
+    </asp:ScriptManager>
+    <header>
+        <div class="content-wrapper">
+            <div class="float-left">
+                <p class="site-title">
+                    <a runat="server" href="~/">NFP Congress 2015</a>
+                </p>
+                <asp:ListView ID="ListView2" runat="server" DataKeyNames="Id" DataSourceID="SqlDataSource2" GroupItemCount="6" OnSelectedIndexChanged="ListView2_SelectedIndexChanged">
+                    <GroupTemplate>
+                        <tr id="itemPlaceholderContainer" runat="server">
+                            <td id="itemPlaceholder" runat="server"></td>
+                        </tr>
+                    </GroupTemplate>
+                    <ItemTemplate>
+                        <td id="Td1" runat="server" style="">
+                            <asp:ImageButton CssClass="ImgLingua" ID="SelectButton" runat="server" ImageUrl='<%# "Images/" + Eval("Id") + ".jpg" %>' CommandName="Select" />
+                        </td>
+                    </ItemTemplate>
+                    <LayoutTemplate>
+                        <table id="Table1" runat="server">
+                            <tr id="Tr1" runat="server">
+                                <td id="Td2" runat="server">
+                                    <table id="groupPlaceholderContainer" runat="server" border="0" style="">
+                                        <tr id="groupPlaceholder" runat="server">
+                                        </tr>
+                                    </table>
+                                </td>
+                            </tr>
+                            <tr id="Tr2" runat="server">
+                                <td id="Td3" runat="server" style=""></td>
+                            </tr>
+                        </table>
+                    </LayoutTemplate>
+                    <SelectedItemTemplate>
+                        <td id="Td4" runat="server" style="">
+                            <asp:Image ID="Image1" CssClass="ImgLinguaDown" runat="server" ImageUrl='<%# "Images/" + Eval("Id") + ".jpg" %>' />
+                            <br />
+                            <asp:Label ID="Label1" CssClass="LabelLingua" runat="server" Text='<%# Eval("Codice") %>'></asp:Label>
+                        </td>
+                    </SelectedItemTemplate>
+                </asp:ListView>
+                <asp:SqlDataSource ID="SqlDataSource2" runat="server" ConnectionString="<%$ ConnectionStrings:DefaultConnection %>" SelectCommand="SELECT [Id], [Codice] FROM [Lingue] ORDER BY [Codice]"></asp:SqlDataSource>
+            </div>
+            <div class="float-right">
+                <section id="login">
+                    <asp:LoginView runat="server" ViewStateMode="Disabled">
+                        <AnonymousTemplate>
+                            <ul>
+                                <li><a id="registerLink" runat="server" href="~/Account/Register">Esegui registrazione</a></li>
+                                <li><a id="loginLink" runat="server" href="~/Account/Login">Accedi</a></li>
+                            </ul>
+                        </AnonymousTemplate>
+                        <LoggedInTemplate>
+                            <p>
+                                Hello, <a runat="server" class="username" href="~/Account/Manage" title="Manage your account">
+                                    <asp:LoginName runat="server" CssClass="username" />
+                                </a>!
+                                <asp:LoginStatus runat="server" LogoutAction="Redirect" LogoutText="Disconnetti" LogoutPageUrl="~/" />
+                            </p>
+                        </LoggedInTemplate>
+                    </asp:LoginView>
+                </section>
+                <nav>
+                    <ul id="menu">
+                        <asp:ListView ID="ListView1" runat="server" DataSourceID="SqlDataSource1" GroupItemCount="5">
+                            <GroupTemplate>
+                                <tr id="itemPlaceholderContainer" runat="server">
+                                    <td id="itemPlaceholder" runat="server"></td>
+                                </tr>
+                            </GroupTemplate>
+                            <ItemTemplate>
+                                <td runat="server" style="">
+                                    <li><a runat="server" href='<%# Eval("Link") %>'>
+                                    <asp:Label ID="TxtMenuLabel" runat="server" Text='<%# Eval("TxtMenu") %>' />
+                                        </a>
+                                    </li>
+                                    </td>
+                            </ItemTemplate>
+                            <LayoutTemplate>
+                                <table runat="server">
+                                    <tr runat="server">
+                                        <td runat="server">
+                                            <table id="groupPlaceholderContainer" runat="server" border="0" style="">
+                                                <tr id="groupPlaceholder" runat="server">
+                                                </tr>
+                                            </table>
+                                        </td>
+                                    </tr>
+                                    <tr runat="server">
+                                        <td runat="server" style=""></td>
+                                    </tr>
+                                </table>
+                            </LayoutTemplate>
+                            <SelectedItemTemplate>
+                                <td runat="server" style="">TxtMenu:
+                                    <asp:Label CssClass="SelectMenu" ID="TxtMenuLabel" runat="server" Text='<%# Eval("TxtMenu") %>' />
+                                    <br />
+                                </td>
+                            </SelectedItemTemplate>
+                        </asp:ListView>
+                        <asp:SqlDataSource ID="SqlDataSource1" runat="server" ConnectionString="<%$ ConnectionStrings:DefaultConnection %>"
+                            SelectCommand="SELECT [TxtMenu], [Link] FROM [Nav] WHERE ([IdLingua] = @IdLingua)">
+                            <SelectParameters>
+                                <asp:SessionParameter DefaultValue="1" Name="IdLingua" SessionField="IdLinguaSessione" Type="Int32" />
+                            </SelectParameters>
+                        </asp:SqlDataSource>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </header>
+    <div id="body">
+        <asp:ContentPlaceHolder runat="server" ID="FeaturedContent" />
+        <section class="content-wrapper main-content clear-fix">
+            <asp:ContentPlaceHolder runat="server" ID="MainContent" />
+        </section>
+    </div>
+    <footer>
+        <div class="content-wrapper">
+            <div class="float-right">
+                <p>
+                    &copy; <%: DateTime.Now.Year %> - <a class="a" href="http://www.cr-consult.eu">Almish<span class="c">&</span>Cesàre<span class="c">W</span>eb</a> Application
+                </p>
+            </div>
+        </div>
+    </footer>
+    </form>
+</body>
+</html>
