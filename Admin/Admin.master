@@ -100,7 +100,8 @@
                          </asp:MenuItem>
                          <asp:MenuItem Text="Download" Value="Download">
                              <asp:MenuItem NavigateUrl="~/Admin/AdminNewsLetter.aspx" Text="Newsletter" Value="Newsletter"></asp:MenuItem>
-                             <asp:MenuItem NavigateUrl="~/Admin/AdminForms.aspx" Text="Forms" Value="Forms"></asp:MenuItem>
+                             <asp:MenuItem NavigateUrl="~/Admin/AdminForms.aspx" Text="Forms registrati" Value="Forms"></asp:MenuItem>
+                             <asp:MenuItem NavigateUrl="~/Admin/AdminFormTutti.aspx" Text="Form tutti" Value="Form tutti"></asp:MenuItem>
                              <asp:MenuItem NavigateUrl="~/Admin/AdminAtti.aspx" Text="Atti del congresso" Value="Atti del congresso"></asp:MenuItem>
                          </asp:MenuItem>
                      </Items>

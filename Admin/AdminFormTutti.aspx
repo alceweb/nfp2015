@@ -1,9 +1,9 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Admin/Admin.master" AutoEventWireup="true" CodeFile="AdminForms.aspx.cs" Inherits="Admin_AdminForms" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Admin/Admin.master" AutoEventWireup="true" CodeFile="AdminFormTutti.aspx.cs" Inherits="Admin_AdminFormTutti" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" Runat="Server">
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" Runat="Server">
-    <h1 class="TitoloVetrina">Gestione forms per utenti registrati</h1>
+    <h1 class="TitoloVetrina">Gestione forms per tutti gli utenti</h1>
     <table>
         <tr>
             <td style="height:30px">
@@ -58,5 +58,6 @@
             </td>
         </tr>
     </table>  
-    </asp:Content>
+
+</asp:Content>
 
