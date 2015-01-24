@@ -35,6 +35,9 @@
         </asp:Login>
             <ul>
                 <li>
+                    <span style="color:red; font-weight:bold">Password dimenticata? </span>Scrivi a: <strong>congress@2015NFPcongress.org</strong> Indicando il nome utente o la mail di riferimento.
+                </li>
+                <li>
                     <strong><asp:HyperLink runat="server" ID="RegisterHyperLink" ViewStateMode="Disabled">Esegui registrazione</asp:HyperLink></strong>se non è disponibile un account
                 </li>
                 <li>
